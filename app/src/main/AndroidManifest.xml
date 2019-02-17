@@ -2,13 +2,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.zwh.meetingroom">
 
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    获取设备唯一标识，用于SDK激活授权
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    允许应用联网，用于SDK联网激活授权
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/appicon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.example.zwh.meetingroom.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
         <activity android:name=".activity.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

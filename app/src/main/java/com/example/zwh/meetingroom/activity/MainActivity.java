@@ -1,16 +1,21 @@
 package com.example.zwh.meetingroom.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AppComponentFactory;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,7 +23,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.arcsoft.face.ErrorInfo;
+import com.arcsoft.face.FaceEngine;
 import com.example.zwh.meetingroom.R;
 import com.example.zwh.meetingroom.base.BaseFragment;
 import com.example.zwh.meetingroom.fragment.MeetingFragment;
@@ -30,8 +38,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
     private String TAG =MainActivity.class.getSimpleName();
-    RadioGroup rg_main;
-    RadioButton meeting_room;
+    private RadioGroup rg_main;
+    private RadioButton meeting_room;
     private ArrayList<Fragment> fragmentList;
     private FragmentManager fm;
     private int position;
@@ -39,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private BaseFragment mContent;
     private RadioButton meeting;
     private RadioButton my;
+    private FaceEngine faceEngine=new FaceEngine();
+    String appId = "HvBCSXKhQD4FPhpDBUAV3uW5MnP2i1n8SFf34Y1UTV6h";
+    String sdk_Key = "BxfiPa1e5BTUqjsYc9JF59H4z7DTqq5pvWULUXc6V32";
+    private int activeCode=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +60,77 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             getWindow().setStatusBarColor(Color.TRANSPARENT);
             getSupportActionBar().hide();
         }
+
+        requestPermission();
         setContentView(R.layout.activity_main);
+        activeEngine();
         //初始化view
         initView();
         //初始化fragment
         initFragment();
+    }
+    /***
+     *激活FaceEngine引擎
+     *@return void
+     *@author wenhaoz
+     *created at 2019/2/17 23:41
+     */
+    public void activeEngine() {
+        activeCode = faceEngine.active(MainActivity.this, appId, sdk_Key);
+        if (activeCode == ErrorInfo.MOK) {
+            Toast.makeText(this, "激活成功", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "激活失败", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void requestPermission() {
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager
+                .PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CAMERA},1);
+        }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager
+                .PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},2);
+        }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.READ_PHONE_STATE) != PackageManager
+                .PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_PHONE_STATE},3);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this,"已获取拍照权限",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"获取拍照权限失败",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 2:
+                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this,"已获取存储权限",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"获取存储权限失败",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 3:
+                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this,"已获取读取手机状态权限",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"获取读取手机状态权限失败",Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case 4:
+                if(grantResults.length>0&&grantResults[0]==PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText(this,"已获取联网权限",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(this,"获取联网权限失败",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
     public void initFragment() {
