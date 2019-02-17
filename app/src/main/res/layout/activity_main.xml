@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/bg"></FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bottom_bar"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/meeting_room"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/meetingroom_selector"
+            android:textColor="@drawable/text_volor_selector"
+            android:gravity="center_horizontal"
+            android:text="首页"
+            android:textSize="10sp" />
+
+
+        <RadioButton
+            android:id="@+id/meeting"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/meeting_selector"
+            android:textColor="@drawable/text_volor_selector"
+            android:gravity="center_horizontal"
+            android:text="附近"
+            android:textSize="10sp" />
+
+
+        <RadioButton
+            android:id="@+id/my"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/my_selector"
+            android:textColor="@drawable/text_volor_selector"
+            android:gravity="center_horizontal"
+            android:text="我的"
+            android:textSize="10sp" />
+        </RadioGroup>
+
+</LinearLayout>
