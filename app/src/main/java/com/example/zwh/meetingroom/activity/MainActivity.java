@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 .PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.READ_PHONE_STATE},3);
         }
+        if(ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET) != PackageManager
+                .PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.INTERNET},4);
+        }
     }
 
     @Override

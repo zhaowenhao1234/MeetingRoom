@@ -3,7 +3,7 @@
     package="com.example.zwh.meetingroom">
 
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     获取设备唯一标识，用于SDK激活授权
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -34,6 +34,7 @@
         </activity>
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.FaceLogin"/>
+        <activity android:name=".activity.ImageAnalysis"/>
     </application>
 
 </manifest>

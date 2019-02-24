@@ -6,6 +6,10 @@ import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.LoginFilter;
+import android.util.Log;
+
+import com.bumptech.glide.request.target.Target;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -79,6 +83,7 @@ public class ImageUtil {
         }
         int bytes = image.getByteCount();
 
+
         ByteBuffer buffer = ByteBuffer.allocate(bytes);
         image.copyPixelsToBuffer(buffer);
         byte[] temp = buffer.array();
@@ -150,6 +155,7 @@ public class ImageUtil {
         if (needAdjust) {
             bitmap = imageCrop(bitmap, new Rect(0, 0, width, height));
         }
+        Log.d("1234", "alignBitmapForBgr24: "+bitmap);
         return bitmap;
     }
 
