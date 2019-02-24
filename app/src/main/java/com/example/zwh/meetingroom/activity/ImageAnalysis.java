@@ -63,21 +63,19 @@ import java.util.List;
  * Step5：调用FaceEngine的compareFaceFeature方法可对传入的两个人脸特征进行比对，获取相似度。（初始化时combineMask需要ASF_FACE_RECOGNITION）
  * Step6：调用FaceEngine的process方法，传入不同的combineMask组合可对Age、Gender、Face3Dangle、Liveness进行检测，传入的combineMask的任一属性都需要在init时进行初始化。
  * Step7：调用FaceEngine的getAge、getGender、getFace3Dangle、getLiveness方法可获取年龄、性别、三维角度、活体检测结果，且每个结果在获取前都需要在process中进行处理。
- * Step8：调用FaceEngine的unInit方法销毁引擎。在init成功后如不unInit会导致内存泄漏。
+ * Step8：调用FaceEngine的unIn0
+ * .it方法销毁引擎。在init成功后如不unInit会导致内存泄漏。
  *
  */
 
 public class ImageAnalysis extends AppCompatActivity {
     private static final String TAG = "ImageAnalysis";
-    private static final int VALUE_FOR_4_ALIGN = 0b11;
-    private static final int VALUE_FOR_2_ALIGN = 0b01;
     private Button start_camera;
     private FaceEngine faceEngine;
     /***
      *检查faceEngine能否初始化成功的标志
      */
     private int faceEngineCode = -1;
-
     /***
      *被处理的图片
      */
@@ -105,12 +103,7 @@ public class ImageAnalysis extends AppCompatActivity {
         pre_picture = (ImageView) findViewById(R.id.pre_picture);
         start_camera = (Button) findViewById(R.id.start_camera);
         initEngine();
-        start_camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startCamera();
-            }
-        });
+        startCamera();
     }
 
 
@@ -145,8 +138,6 @@ public class ImageAnalysis extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 Log.d(TAG, "onActivityResult: " + resultCode);
-
-
                 loadImage(getExternalCacheDir() + "/login.jpg");
                 processImage(getExternalCacheDir() + "/login.jpg");
                 break;
@@ -267,7 +258,6 @@ public class ImageAnalysis extends AppCompatActivity {
         opt.inJustDecodeBounds = false;
         bitmap = BitmapFactory.decodeFile(getExternalCacheDir() + "/login.jpg", opt);
 
-
         Bitmap mbitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         /***
          *使用imageUtil工具类转换为方法中可识别的位图格式
@@ -314,7 +304,6 @@ public class ImageAnalysis extends AppCompatActivity {
                     FaceEngine.ASF_AGE | FaceEngine.ASF_GENDER | FaceEngine.ASF_FACE3DANGLE | FaceEngine.ASF_LIVENESS);
             if(faceProcessCode ==ErrorInfo.MOK){
                 Log.d(TAG, "getMoreInfo:face处理成功 ");
-
             }else{
                 Log.d(TAG, "getMoreInfo:face处理失败 "+faceProcessCode);
             }
